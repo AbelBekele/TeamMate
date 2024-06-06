@@ -5,3 +5,5 @@ uvicorn
 python-socketio
 weaviate-client
 pandas
+uvicorn
+python-dotenv

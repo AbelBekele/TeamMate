@@ -1,8 +1,12 @@
 import uvicorn
 import socketio
+import weaviate
 from fastapi import FastAPI
 from typing import Dict, List
-from weaviate import setup_weaviate_interface
+import os
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
 
 # Fast API application
 app = FastAPI()
@@ -15,9 +19,27 @@ app.mount("/", socket_app)
 # Dictionary to store session data
 sessions: Dict[str, List[Dict[str, str]]] = {}
 
-# Weaviate Interface
-weaviate_interface = setup_weaviate_interface()
+# Weaviate Client Initialization
+api_key = os.environ["OPENAI_API_KEY"]
+weaviate_url = os.environ["WEAVIATE_URL"]
 
+client = weaviate.WeaviateClient(
+    url=weaviate_url,
+    additional_headers={
+        "X-OpenAI-API-Key": api_key
+    }
+)
+# client = weaviate.connect_to_custom(
+#     http_host="192.168.137.236",
+#     http_port="8080",
+#     http_secure=False,
+#     grpc_host="192.168.137.236",
+#     grpc_port="50051",
+#     grpc_secure=False,
+#     headers={
+#         "X-OpenAI-Api-Key": os.getenv("OPENAI_APIKEY")  # Or any other inference API keys
+#     }
+# )
 
 # Print {"Hello":"World"} on localhost:7777
 @app.get("/")
@@ -65,9 +87,25 @@ async def handle_chat_message(sid, data):
             "timestamp": data.get("timestamp"),
         }
         sessions[session_id].append(received_message)
+
+        # Perform Weaviate search
+        query_result = client.query.get(
+            "all_nov_jobs", ["title", "place", "description"]
+        ).with_near_text(
+            {"concepts": [data.get("message")]}
+        ).with_additional(
+            ["distance", "id"]
+        ).with_limit(5).do()
+
+        # Prepare the response message with search results
+        results = query_result['data']['Get']['all_nov_jobs']
+        response_text = "Top 5 search results:\n"
+        for result in results:
+            response_text += f"Title: {result['title']}\nPlace: {result['place']}\nDescription: {result['description']}\n\n"
+
         response_message = {
             "id": data.get("id") + "_response",
-            "textResponse": data.get("message"),
+            "textResponse": response_text,
             "isUserMessage": False,
             "timestamp": data.get("timestamp"),
             "isComplete": True,
