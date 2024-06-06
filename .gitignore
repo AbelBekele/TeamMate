@@ -1,2 +1,28 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+
+# Others
 .env
 .venv
+*.log
+*.sql
+*.sqlite
+data/

@@ -1,2 +1,7 @@
 groq
 langchain
+fastapi
+uvicorn
+python-socketio
+weaviate-client
+pandas
