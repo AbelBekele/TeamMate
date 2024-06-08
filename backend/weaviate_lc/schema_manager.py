@@ -1,3 +1,4 @@
+#schema_manager.py
 import json
 from typing import Any, Dict
 from .weaviate_client import WeaviateClient

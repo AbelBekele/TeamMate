@@ -1,3 +1,4 @@
+#weaviate_client.py
 from .http_client import HttpHandler
 from typing import Any, Dict, List
 

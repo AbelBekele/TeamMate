@@ -1,5 +1,6 @@
-from weaviate.schema_manager import SchemaManager
-from weaviate.weaviate_client import WeaviateClient
+#weaviate_interface.py
+from weaviate_lc.schema_manager import SchemaManager
+from weaviate_lc.weaviate_client import WeaviateClient
 from .http_client import HttpClient, HttpHandler
 
 

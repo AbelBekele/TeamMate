@@ -7,3 +7,6 @@ weaviate-client
 pandas
 uvicorn
 python-dotenv
+langchain-community
+openai
+langchain_weaviate

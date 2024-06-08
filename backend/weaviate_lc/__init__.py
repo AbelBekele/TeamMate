@@ -1,3 +1,4 @@
+#__init__.py
 import os
 import asyncio
 from .weaviate_interface import WeaviateInterface
@@ -8,8 +9,8 @@ load_dotenv()
 
 async def setup_weaviate_interface_async() -> WeaviateInterface:
     openai_key = os.getenv("OPENAI_API_KEY")
-    weaviate_url = os.getenv("WEAVIATE_URL", "http://0.0.0.0:8080")
-    schema_file = "./weaviate/schema.json"
+    weaviate_url = os.getenv("WEAVIATE_URL", "http://192.168.137.236:8080")
+    schema_file = "./weaviate_lc/schema.json"
 
     if not openai_key or not weaviate_url:
         raise Exception("Missing OPENAI_API_KEY or WEAVIATE_URL")
