@@ -1,17 +1,10 @@
-# config.py
 import os
-import dotenv
-import weaviate
+from pydantic_settings import BaseSettings
 
-dotenv.load_dotenv()
+class Settings(BaseSettings):
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
+    WEAVIATE_URL: str = os.getenv("WEAVIATE_URL")
+    HOST: str = "192.168.137.236"
+    PORT: int = 6789
 
-API_KEY = os.getenv("OPENAI_API_KEY")
-WEAVIATE_URL = os.getenv("WEAVIATE_URL")
-
-client = weaviate.Client(
-    url=WEAVIATE_URL,
-    additional_headers={
-        "X-OpenAI-API-Key": API_KEY
-    }
-)
-
+settings = Settings()
