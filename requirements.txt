@@ -10,3 +10,16 @@ python-dotenv
 langchain-community
 openai
 langchain_weaviate
+pytest
+pytest-cov
+black[jupyter]
+ipykernel
+textwrap3
+unstructured
+pdfminer.six
+Pillow
+pillow_heif
+opencv-python
+pdf2image
+pytesseract
+poppler-utils
